@@ -2,7 +2,7 @@
 /* 
 	game.js
 
-	A game. But written 100% in javascript.
+	Shifting Shapes. Written 100% in javascript.
 	g12345, for LD 35
 */
 
@@ -31,6 +31,7 @@ TileSize = 32;
 totalClicks = 0;
 
 var score = 0;
+var turns = 0;
 
 var camerax = 70;
 var cameray = 20;
@@ -174,6 +175,8 @@ function scoring()
 {
 	var xx, yy, tot;
 	
+	turns --;
+	
 	// check all rows
 	for (yy = 0; yy < my; yy++)
 	{
@@ -189,6 +192,7 @@ function scoring()
 			{
 				map0[yy][i] = Math.floor((Math.random() * 5) + 1);
 			}
+			turns += 11;
 		}
 	}
 	
@@ -207,6 +211,7 @@ function scoring()
 			{
 				map0[i][xx] = Math.floor((Math.random() * 5) + 1);
 			}
+			turns += 11;
 		}
 	}
 }
@@ -277,6 +282,7 @@ Game.launch = function(canvasId)
 	var newGame = function()
 	{
 		score = 0;
+		turns = 30;
 
 		for (var y=0; y<my; y++)
 		{
@@ -310,7 +316,7 @@ Game.launch = function(canvasId)
 		if (gameMode === 1)
 		{
 			screen.fillStyle="black";
-			screen.fillRect(0, 0, gameSize.x, gameSize.y-2*TileSize);
+			screen.fillRect(0, 0, gameSize.x, gameSize.y-2*TileSize-16);
 
 			for (var i=0; i<people.length; i++)
 				people[i].draw(screen, camerax, cameray);
@@ -318,35 +324,29 @@ Game.launch = function(canvasId)
 			drawGrid();
 			
 			screen.fillStyle="goldenrod";
-			screen.fillRect(0,gameSize.y-2*TileSize, gameSize.x, gameSize.y);
+			screen.fillRect(0,gameSize.y-2*TileSize-16, gameSize.x, gameSize.y);
 
 			// depth = Math.floor (people[0].center.y / TileSize);
 			depth = people[0].depth;
 //			sprint (screen, 16, 384-8-32, "Score: " + score + " Depth: " + depth + "  ");
 			var scoretext = "  Score: " + score + "  ";
-			sprint (screen, Math.floor((gameSize.x - 16 * scoretext.length)/2), 384-8-48, scoretext);
+			sprint (screen, Math.floor((gameSize.x - 16 * scoretext.length)/2), 384-8-60, scoretext);
+			scoretext = "  Shifts Left: " + turns + "  ";
+			sprint (screen, Math.floor((gameSize.x - 16 * scoretext.length)/2), 384-8-40, scoretext);
 			scoretext = "  Time: " + Math.floor(clockticks/60) + "  ";
-			sprint (screen, Math.floor((gameSize.x - 16 * scoretext.length)/2), 384-8-16, scoretext);
+			sprint (screen, Math.floor((gameSize.x - 16 * scoretext.length)/2), 384-8-20, scoretext);
 	
-			if ((depth <5) && (depth >0))
+			if (turns < 1)
 			{
 				gameMode = 3;
 				
-				sprint (screen, 80, 140, "Well Done,");
-				sprint (screen, 80, 180, "You have Escaped!");
-				score += 100;
+				sprint (screen, 80, 140, "Game over");
+				// sprint (screen, 80, 180, "You have Escaped!");
+				// score += 100;
 				sprint (screen, 80, 200, "Score: "+score);
 				sprint (screen, 80, 220, "Press Enter to restart");
-				
-				makeMap();
-				score = 0;
-				people[0].center.y = 1600;
-				people[0].center.x = 400;
-				people[0].dir = 0;
-				people[0].hold = 0;
-				people[0].onfloor = 0;
-				people[0].framenr = 1;
-				
+
+				newGame();
 			}
 		}
 		
@@ -356,12 +356,13 @@ Game.launch = function(canvasId)
 			screen.fillRect(0,0, gameSize.x, gameSize.y);
 			
 			sprint (screen, 120, 30, "Shifting Shapes");
-			sprint (screen, 16, 120, "Goal: Make Lines of 8 of");
-			sprint (screen, 16, 140, "      the same shape");
+			sprint (screen, 16, 120, "  Make Lines of 8 of the");
+			sprint (screen, 16, 140, "  same shape, with a limited");
+			sprint (screen, 16, 160, "  number of shifts.");
 			sprint (screen, 16, 210, "Keys: Cursor Keys + Ctrl");
-			sprint (screen, 16, 250, "Backspace or R to restart");
+			sprint (screen, 16, 250, "  R or Backspace to restart");
 			sprint (screen, 16, 290, "Press ENTER to start.");
-			sprint (screen, 16, 330, "Made for Ludum Dare 35.");
+			sprint (screen, 16, 330, "  Made for Ludum Dare 35.");
 //			sprint (screen, 16, 384-8-32, "Total Clicks: " + totalClicks );
 		}
 	}
