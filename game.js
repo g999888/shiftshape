@@ -35,7 +35,7 @@ var score = 0;
 var camerax = 70;
 var cameray = 20;
 
-KEYS = { LEFT:37, UP:38, RIGHT:39, DOWN:40, SPACE:32, ENTER:13, BACKSPACE:8 };
+KEYS = { LEFT:37, UP:38, RIGHT:39, DOWN:40, SPACE:32, ENTER:13, BACKSPACE:8, R:82 };
 
 var Keyboard = function()
 {
@@ -248,7 +248,7 @@ Game.launch = function(canvasId)
 			for (var i=people.length-1; i>=0; i--)
 				people[i].update();
 			
-			if (people[0].keyb.isDown(KEYS.BACKSPACE))
+			if ( (people[0].keyb.isDown(KEYS.BACKSPACE)) || (people[0].keyb.isDown(KEYS.R)) )
 			{				
 				newGame();
 			}
@@ -359,7 +359,7 @@ Game.launch = function(canvasId)
 			sprint (screen, 16, 120, "Goal: Make Lines of 8 of");
 			sprint (screen, 16, 140, "      the same shape");
 			sprint (screen, 16, 210, "Keys: Cursor Keys + Ctrl");
-			sprint (screen, 16, 250, "Backspace to restart");
+			sprint (screen, 16, 250, "Backspace or R to restart");
 			sprint (screen, 16, 290, "Press ENTER to start.");
 			sprint (screen, 16, 330, "Made for Ludum Dare 35.");
 //			sprint (screen, 16, 384-8-32, "Total Clicks: " + totalClicks );
