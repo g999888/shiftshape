@@ -376,7 +376,7 @@ Game.launch = function(canvasId)
 			sprint (screen, 16, 210, "Keys: Cursor Keys + Ctrl");
 			sprint (screen, 16, 250, "  R or Backspace to restart");
 			sprint (screen, 16, 290, "Press ENTER to start.");
-			sprint (screen, 16, 330, "  Made for Ludum Dare 35.");
+			sprint (screen, 16, 330, "  Made for Ludum Dare 35...");
 //			sprint (screen, 16, 384-8-32, "Total Clicks: " + totalClicks );
 		}
 	}
