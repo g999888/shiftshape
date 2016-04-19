@@ -32,7 +32,9 @@ totalClicks = 0;
 
 var score = 0;
 var turns = 0;
-
+var extrashifts = 10;
+var clockticks = -1;
+	
 var camerax = 70;
 var cameray = 20;
 
@@ -170,6 +172,12 @@ function shiftDown(x, y)
 	map0[0][x] = t;
 }
 
+function adjustshifts()
+{
+	extrashifts = 10 - Math.floor(score/500);
+	if (extrashifts < 4) extrashifts = 4;
+}
+
 function scoring()
 // returns scores, and a new map0
 {
@@ -192,7 +200,9 @@ function scoring()
 			{
 				map0[yy][i] = Math.floor((Math.random() * 5) + 1);
 			}
-			turns += 11;
+			turns += extrashifts + 1;
+			
+			adjustshifts();
 		}
 	}
 	
@@ -211,7 +221,9 @@ function scoring()
 			{
 				map0[i][xx] = Math.floor((Math.random() * 5) + 1);
 			}
-			turns += 11;
+			turns += extrashifts + 1;
+			
+			adjustshifts();
 		}
 	}
 }
@@ -268,7 +280,7 @@ Game.launch = function(canvasId)
 		}
 	}
 	
-	var clockticks = -1;
+
 	
 	mx = 8;
 	my = 8;
@@ -282,7 +294,9 @@ Game.launch = function(canvasId)
 	var newGame = function()
 	{
 		score = 0;
-		turns = 30;
+		turns = 20;
+		extrashifts = 10;
+		clockticks = 0;
 
 		for (var y=0; y<my; y++)
 		{
